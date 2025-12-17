@@ -75,37 +75,42 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 # CORS / CSRF
 # ----------------------
 from corsheaders.defaults import default_headers, default_methods
+# ----------------------
+# CORS / CSRF (FINAL FIX)
+# ----------------------
 
-if DJANGO_ENV == "development":
-    # Local React dev
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ]
-    CSRF_TRUSTED_ORIGINS = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ]
-    CORS_ALLOW_ALL_ORIGINS = True   # ✅ useful for dev
-    CSRF_COOKIE_SECURE = False
-    SESSION_COOKIE_SECURE = False
+CORS_ALLOWED_ORIGINS = [
+    # Local dev
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
 
-else:
-    # Production domains
-    CORS_ALLOWED_ORIGINS = [
-        "https://my-frontend-9qlg.onrender.com",
-        "https://heritageinvestmentgrup.com",
-        "https://www.heritageinvestmentgrup.com",
-        
-    ]
-    CSRF_TRUSTED_ORIGINS = [
-        "https://my-frontend-9qlg.onrender.com",
-        "https://heritageinvestmentgrup.com",
-        "https://www.heritageinvestmentgrup.com",
-        "https:// backend-osagie.up.railway.app,",
-    ]
-    CSRF_COOKIE_SECURE = True
-    SESSION_COOKIE_SECURE = True
+    # Production frontend
+    "https://heritageinvestmentgrup.com",
+    "https://www.heritageinvestmentgrup.com",
+    "https://my-frontend-9qlg.onrender.com",
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+
+    "https://heritageinvestmentgrup.com",
+    "https://www.heritageinvestmentgrup.com",
+    "https://my-frontend-9qlg.onrender.com",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "authorization",
+    "content-type",
+]
+
+CORS_ALLOW_METHODS = list(default_methods)
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 
 # Common settings
 CORS_ALLOW_CREDENTIALS = True
