@@ -31,7 +31,7 @@ ALLOWED_HOSTS = env.list(
         "localhost",
         "heritageinvestmentgrup.com",
         "www.heritageinvestmentgrup.com",
-        "api.heritageinvestmentgrup.com",
+        "backend-osagie.up.railway.app",
     ],
 )
 
@@ -96,13 +96,13 @@ else:
         "https://my-frontend-9qlg.onrender.com",
         "https://heritageinvestmentgrup.com",
         "https://www.heritageinvestmentgrup.com",
-        "https://api.heritageinvestmentgrup.com",
+        
     ]
     CSRF_TRUSTED_ORIGINS = [
         "https://my-frontend-9qlg.onrender.com",
         "https://heritageinvestmentgrup.com",
         "https://www.heritageinvestmentgrup.com",
-        "https://api.heritageinvestmentgrup.com",
+        "https:// backend-osagie.up.railway.app,",
     ]
     CSRF_COOKIE_SECURE = True
     SESSION_COOKIE_SECURE = True
