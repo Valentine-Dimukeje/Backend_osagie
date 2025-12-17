@@ -1,1 +1,1 @@
-web: gunicorn investpro_backend.wsgi
+web: gunicorn Backend_osagie.wsgi

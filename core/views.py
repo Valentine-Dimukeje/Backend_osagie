@@ -187,34 +187,53 @@ def register_view(request):
 @api_view(["POST"])
 @permission_classes([AllowAny])
 def login_view(request):
-    email_or_username = request.data.get("username") or request.data.get("email")
+    identifier = request.data.get("username") or request.data.get("email")
     password = request.data.get("password")
 
-    user = None
+    if not identifier or not password:
+        return Response(
+            {"detail": "Email/username and password are required"},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
 
-    # Try direct authentication (works if username==email)
-    user = authenticate(request, username=email_or_username, password=password)
+    # Try username login
+    user = authenticate(request, username=identifier, password=password)
 
-    # If failed, fallback: check by email
+    # Try email login
     if user is None:
         try:
-            user_obj = User.objects.get(email=email_or_username)
-            user = authenticate(request, username=user_obj.username, password=password)
+            user_obj = User.objects.get(email__iexact=identifier)
+            user = authenticate(
+                request,
+                username=user_obj.username,
+                password=password,
+            )
         except User.DoesNotExist:
             pass
 
-    if user is not None:
-        refresh = RefreshToken.for_user(user)
+    if user is None:
         return Response(
-            {
-                "user": UserSerializer(user).data,
-                "access": str(refresh.access_token),
-                "refresh": str(refresh),
-            },
-            status=status.HTTP_200_OK,
+            {"detail": "Invalid credentials"},
+            status=status.HTTP_401_UNAUTHORIZED,
         )
 
-    return Response({"detail": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
+    if not user.is_active:
+        return Response(
+            {"detail": "Account is disabled"},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    refresh = RefreshToken.for_user(user)
+
+    return Response(
+        {
+            "user": UserSerializer(user).data,
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+        },
+        status=status.HTTP_200_OK,
+    )
+
 
 # ----------------------
 # Current user
