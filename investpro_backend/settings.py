@@ -75,13 +75,14 @@ from corsheaders.defaults import default_headers, default_methods
 # ----------------------
 # CORS / CSRF (FINAL FIX)
 # ----------------------
+# ----------------------
+# CORS / CSRF (FINAL, CLEAN)
+# ----------------------
 
 CORS_ALLOWED_ORIGINS = [
-    # Local dev
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 
-    # Production frontend
     "https://heritageinvestmentgrup.com",
     "https://www.heritageinvestmentgrup.com",
     "https://my-frontend-9qlg.onrender.com",
@@ -98,24 +99,26 @@ CSRF_TRUSTED_ORIGINS = [
 
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOW_HEADERS = list(default_headers) + [
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
     "authorization",
     "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
 ]
 
-CORS_ALLOW_METHODS = list(default_methods)
-
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-
-
-# Common settings
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    "authorization",
-    "content-type",
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
 ]
-CORS_ALLOW_METHODS = list(default_methods)
 
 
 # ----------------------
