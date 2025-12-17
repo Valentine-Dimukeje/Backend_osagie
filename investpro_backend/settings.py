@@ -24,16 +24,13 @@ else:
 SECRET_KEY = env("DJANGO_SECRET_KEY", default="fallback-secret-key")
 DEBUG = env.bool("DJANGO_DEBUG", default=(DJANGO_ENV == "development"))
 
-ALLOWED_HOSTS = env.list(
-    "DJANGO_ALLOWED_HOSTS",
-    default=[
-        "127.0.0.1",
-        "localhost",
-        "heritageinvestmentgrup.com",
-        "www.heritageinvestmentgrup.com",
-        "backend-osagie.up.railway.app",
-    ],
-)
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "heritageinvestmentgrup.com",
+    "www.heritageinvestmentgrup.com",
+    "web-production-5c9c5.up.railway.app",
+]
 
 # ----------------------
 # Applications
